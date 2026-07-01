@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-01T00:00:00+00:00",
-  "companyCount": 16,
-  "failedCount": 16,
+  "companyCount": 18,
+  "failedCount": 18,
   "companies": [
     { "symbol": "CONCOR",     "name": "Container Corp. of India", "segment": "Rail / Container",       "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
     { "symbol": "DELHIVERY",  "name": "Delhivery Ltd",             "segment": "E-commerce / 3PL",       "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
@@ -18,6 +18,8 @@
     { "symbol": "NAVKARCORP", "name": "Navkar Corporation",        "segment": "ICD / Container",        "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
     { "symbol": "TVSSCS",     "name": "TVS Supply Chain Solutions","segment": "3PL / Supply Chain",     "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
     { "symbol": "SICAL",      "name": "Sical Logistics",           "segment": "Ports / Multimodal",     "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
-    { "symbol": "GATI",       "name": "Gati Ltd",                  "segment": "Express / Distribution", "price": null, "prevClose": null, "changePct": null, "status": "pending first run" }
+    { "symbol": "GATI",       "name": "Gati Ltd",                  "segment": "Express / Distribution", "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
+    { "symbol": "ADANIPORTS","name": "Adani Ports & SEZ (APSEZ)",  "segment": "Ports / SEZ",             "price": null, "prevClose": null, "changePct": null, "status": "pending first run" },
+    { "symbol": "JSWINFRA",  "name": "JSW Infrastructure",         "segment": "Ports / Terminals",       "price": null, "prevClose": null, "changePct": null, "status": "pending first run" }
   ]
 }

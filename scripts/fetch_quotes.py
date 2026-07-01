@@ -3,13 +3,19 @@
 Fetches live quotes for a curated list of NSE-listed logistics companies
 and writes them to data.json at the repo root.
 
+Uses yfinance rather than raw HTTP calls to Yahoo's chart API: Yahoo now
+frequently requires a session/crumb token, and yfinance handles that
+negotiation (and retries) for us instead of returning bare 401/429s.
+
 This script is run on a schedule by .github/workflows/update-quotes.yml —
 it has no knowledge of whether anyone is looking at the site.
 """
 import json
 import sys
-import urllib.request
+import time
 from datetime import datetime, timezone
+
+import yfinance as yf
 
 COMPANIES = [
     {"symbol": "CONCOR",     "name": "Container Corp. of India", "segment": "Rail / Container"},
@@ -28,25 +34,57 @@ COMPANIES = [
     {"symbol": "TVSSCS",     "name": "TVS Supply Chain Solutions","segment": "3PL / Supply Chain"},
     {"symbol": "SICAL",      "name": "Sical Logistics",           "segment": "Ports / Multimodal"},
     {"symbol": "GATI",       "name": "Gati Ltd",                  "segment": "Express / Distribution"},
+    {"symbol": "ADANIPORTS","name": "Adani Ports & SEZ (APSEZ)",  "segment": "Ports / SEZ"},
+    {"symbol": "JSWINFRA",  "name": "JSW Infrastructure",         "segment": "Ports / Terminals"},
 ]
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; nse-logistics-index/1.0)"}
+MAX_ATTEMPTS = 3
+RETRY_DELAY_SECONDS = 4
+
+
+def _extract(fast_info, keys):
+    """fast_info exposes both snake_case and camelCase keys depending on
+    yfinance version; try a few until one works."""
+    for key in keys:
+        try:
+            value = fast_info[key]
+            if value is not None:
+                return value
+        except (KeyError, Exception):
+            continue
+    return None
 
 
 def fetch_quote(symbol: str):
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}.NS?interval=1d&range=1d"
-    req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req, timeout=10) as resp:
-        payload = json.loads(resp.read().decode())
-    meta = payload["chart"]["result"][0]["meta"]
-    price = meta.get("regularMarketPrice")
-    prev_close = meta.get("chartPreviousClose") or meta.get("previousClose")
-    if price is None:
-        raise ValueError("no price in response")
-    change_pct = None
-    if prev_close:
-        change_pct = round((price - prev_close) / prev_close * 100, 2)
-    return {"price": price, "prevClose": prev_close, "changePct": change_pct}
+    last_error = None
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            ticker = yf.Ticker(f"{symbol}.NS")
+            fast = ticker.fast_info
+            price = _extract(fast, ["last_price", "lastPrice"])
+            prev_close = _extract(fast, ["previous_close", "previousClose"])
+
+            if price is None:
+                # fast_info can come back empty for illiquid/small-cap symbols;
+                # fall back to a 1-day price history.
+                hist = ticker.history(period="2d")
+                if not hist.empty:
+                    price = float(hist["Close"].iloc[-1])
+                    if prev_close is None and len(hist) > 1:
+                        prev_close = float(hist["Close"].iloc[-2])
+
+            if price is None:
+                raise ValueError("no price available from fast_info or history")
+
+            return {
+                "price": round(float(price), 2),
+                "prevClose": round(float(prev_close), 2) if prev_close else None,
+            }
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+            if attempt < MAX_ATTEMPTS:
+                time.sleep(RETRY_DELAY_SECONDS)
+    raise last_error
 
 
 def main():
@@ -56,13 +94,19 @@ def main():
         row = dict(company)
         try:
             row.update(fetch_quote(company["symbol"]))
+            row["changePct"] = (
+                round((row["price"] - row["prevClose"]) / row["prevClose"] * 100, 2)
+                if row.get("prevClose")
+                else None
+            )
             row["status"] = "ok"
-        except Exception as exc:  # noqa: BLE001 - log and continue, one bad symbol shouldn't kill the run
+        except Exception as exc:  # noqa: BLE001 - one bad symbol shouldn't kill the run
             row.update({"price": None, "prevClose": None, "changePct": None})
             row["status"] = "error"
             failures += 1
-            print(f"WARN: failed to fetch {company['symbol']}: {exc}", file=sys.stderr)
+            print(f"WARN: failed to fetch {company['symbol']} after retries: {exc}", file=sys.stderr)
         rows.append(row)
+        time.sleep(1)  # be polite to the upstream feed, avoid rate-limit blocks
 
     output = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),

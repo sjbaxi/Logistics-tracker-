@@ -57,6 +57,28 @@ indefinitely, with no server to maintain and no cost.
 - **Manual refresh anytime**: Actions tab → "Run workflow", or just wait for
   the next scheduled tick.
 
+## Troubleshooting: "prices aren't updating"
+
+- **If you're looking at a single standalone HTML file with a "Refresh
+  quotes" button** (an earlier version of this project): that approach
+  can't work reliably. Yahoo Finance's API doesn't send CORS headers, so
+  browsers block the page from fetching it directly — no refresh click or
+  network setting fixes that, since it's Yahoo's server refusing the
+  request, not a bug in the page. Use this repo's GitHub Actions version
+  instead, which fetches server-side where CORS doesn't apply.
+- **If `data.json` still shows `null` prices after deploying**: check the
+  Actions tab → latest "Update NSE logistics quotes" run → expand "Fetch
+  latest quotes" logs. Common causes:
+  - Workflow hasn't run yet — trigger it manually (Actions → Run workflow).
+  - "Workflow permissions" is set to read-only — see step 3 above.
+  - Occasional upstream rate-limiting — the script retries 3× with a delay
+    per symbol, but if Yahoo blocks the whole runner IP temporarily, wait
+    for the next scheduled run.
+- **If the page loads but shows the placeholder data forever**: make sure
+  GitHub Pages is serving from the branch the workflow commits to (`main`),
+  and that Pages has picked up the latest commit (check the Pages deployment
+  log in the Actions tab).
+
 ## Limits worth knowing
 
 - GitHub Actions free tier gives public repos unlimited scheduled minutes;
