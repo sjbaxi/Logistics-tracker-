@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-01T12:04:05.154313+00:00",
-  "companyCount": 16,
+  "generatedAt": "2026-07-01T12:26:04.140485+00:00",
+  "companyCount": 18,
   "failedCount": 2,
   "companies": [
     {
@@ -8,8 +8,8 @@
       "name": "Container Corp. of India",
       "segment": "Rail / Container",
       "price": 480.25,
-      "prevClose": 475.25,
-      "changePct": 1.05,
+      "prevClose": 475.2,
+      "changePct": 1.06,
       "status": "ok"
     },
     {
@@ -17,8 +17,8 @@
       "name": "Delhivery Ltd",
       "segment": "E-commerce / 3PL",
       "price": 507.7,
-      "prevClose": 472.05,
-      "changePct": 7.55,
+      "prevClose": 470.55,
+      "changePct": 7.9,
       "status": "ok"
     },
     {
@@ -35,8 +35,8 @@
       "name": "TCI Express",
       "segment": "Surface Express",
       "price": 509.05,
-      "prevClose": 512.45,
-      "changePct": -0.66,
+      "prevClose": 514.0,
+      "changePct": -0.96,
       "status": "ok"
     },
     {
@@ -53,8 +53,8 @@
       "name": "Mahindra Logistics",
       "segment": "3PL / Supply Chain",
       "price": 371.4,
-      "prevClose": 373.9,
-      "changePct": -0.67,
+      "prevClose": 374.75,
+      "changePct": -0.89,
       "status": "ok"
     },
     {
@@ -62,8 +62,8 @@
       "name": "VRL Logistics",
       "segment": "Surface Freight",
       "price": 238.51,
-      "prevClose": 235.42,
-      "changePct": 1.31,
+      "prevClose": 237.5,
+      "changePct": 0.43,
       "status": "ok"
     },
     {
@@ -80,8 +80,8 @@
       "name": "Aegis Logistics",
       "segment": "LPG / Liquid Terminals",
       "price": 1254.7,
-      "prevClose": 1173.95,
-      "changePct": 6.88,
+      "prevClose": 1177.05,
+      "changePct": 6.6,
       "status": "ok"
     },
     {
@@ -89,8 +89,8 @@
       "name": "Great Eastern Shipping",
       "segment": "Shipping",
       "price": 1421.0,
-      "prevClose": 1483.1,
-      "changePct": -4.19,
+      "prevClose": 1482.0,
+      "changePct": -4.12,
       "status": "ok"
     },
     {
@@ -98,8 +98,8 @@
       "name": "Shipping Corp. of India",
       "segment": "Shipping",
       "price": 301.15,
-      "prevClose": 305.3,
-      "changePct": -1.36,
+      "prevClose": 306.45,
+      "changePct": -1.73,
       "status": "ok"
     },
     {
@@ -116,8 +116,8 @@
       "name": "Navkar Corporation",
       "segment": "ICD / Container",
       "price": 111.7,
-      "prevClose": 107.42,
-      "changePct": 3.98,
+      "prevClose": 108.0,
+      "changePct": 3.43,
       "status": "ok"
     },
     {
@@ -146,6 +146,24 @@
       "prevClose": null,
       "changePct": null,
       "status": "error"
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "name": "Adani Ports & SEZ (APSEZ)",
+      "segment": "Ports / SEZ",
+      "price": 1848.2,
+      "prevClose": 1810.2,
+      "changePct": 2.1,
+      "status": "ok"
+    },
+    {
+      "symbol": "JSWINFRA",
+      "name": "JSW Infrastructure",
+      "segment": "Ports / Terminals",
+      "price": 330.45,
+      "prevClose": 324.0,
+      "changePct": 1.99,
+      "status": "ok"
     }
   ]
 }
