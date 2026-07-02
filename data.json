@@ -1,168 +1,173 @@
 {
-  "generatedAt": "2026-07-01T12:26:04.140485+00:00",
-  "companyCount": 18,
-  "failedCount": 2,
+  "generatedAt": "2026-07-02T04:51:34.425614+00:00",
+  "index": {
+    "baseDate": "2023-04-01",
+    "baseValue": 1000.0,
+    "value": 2077.09,
+    "prevValue": 2064.72,
+    "changePct": 0.6
+  },
+  "companyCount": 16,
+  "failedCount": 0,
   "companies": [
-    {
-      "symbol": "CONCOR",
-      "name": "Container Corp. of India",
-      "segment": "Rail / Container",
-      "price": 480.25,
-      "prevClose": 475.2,
-      "changePct": 1.06,
-      "status": "ok"
-    },
-    {
-      "symbol": "DELHIVERY",
-      "name": "Delhivery Ltd",
-      "segment": "E-commerce / 3PL",
-      "price": 507.7,
-      "prevClose": 470.55,
-      "changePct": 7.9,
-      "status": "ok"
-    },
-    {
-      "symbol": "BLUEDART",
-      "name": "Blue Dart Express",
-      "segment": "Air / Express",
-      "price": 4893.8,
-      "prevClose": 4864.8,
-      "changePct": 0.6,
-      "status": "ok"
-    },
-    {
-      "symbol": "TCIEXP",
-      "name": "TCI Express",
-      "segment": "Surface Express",
-      "price": 509.05,
-      "prevClose": 514.0,
-      "changePct": -0.96,
-      "status": "ok"
-    },
-    {
-      "symbol": "TCI",
-      "name": "Transport Corp. of India",
-      "segment": "Multimodal",
-      "price": 924.1,
-      "prevClose": 924.7,
-      "changePct": -0.06,
-      "status": "ok"
-    },
-    {
-      "symbol": "MAHLOG",
-      "name": "Mahindra Logistics",
-      "segment": "3PL / Supply Chain",
-      "price": 371.4,
-      "prevClose": 374.75,
-      "changePct": -0.89,
-      "status": "ok"
-    },
-    {
-      "symbol": "VRLLOG",
-      "name": "VRL Logistics",
-      "segment": "Surface Freight",
-      "price": 238.51,
-      "prevClose": 237.5,
-      "changePct": 0.43,
-      "status": "ok"
-    },
-    {
-      "symbol": "ALLCARGO",
-      "name": "Allcargo Logistics",
-      "segment": "Freight Forwarding",
-      "price": 8.19,
-      "prevClose": 8.09,
-      "changePct": 1.24,
-      "status": "ok"
-    },
-    {
-      "symbol": "AEGISLOG",
-      "name": "Aegis Logistics",
-      "segment": "LPG / Liquid Terminals",
-      "price": 1254.7,
-      "prevClose": 1177.05,
-      "changePct": 6.6,
-      "status": "ok"
-    },
-    {
-      "symbol": "GESHIP",
-      "name": "Great Eastern Shipping",
-      "segment": "Shipping",
-      "price": 1421.0,
-      "prevClose": 1482.0,
-      "changePct": -4.12,
-      "status": "ok"
-    },
-    {
-      "symbol": "SCI",
-      "name": "Shipping Corp. of India",
-      "segment": "Shipping",
-      "price": 301.15,
-      "prevClose": 306.45,
-      "changePct": -1.73,
-      "status": "ok"
-    },
-    {
-      "symbol": "SNOWMAN",
-      "name": "Snowman Logistics",
-      "segment": "Cold Chain",
-      "price": 37.09,
-      "prevClose": 36.91,
-      "changePct": 0.49,
-      "status": "ok"
-    },
-    {
-      "symbol": "NAVKARCORP",
-      "name": "Navkar Corporation",
-      "segment": "ICD / Container",
-      "price": 111.7,
-      "prevClose": 108.0,
-      "changePct": 3.43,
-      "status": "ok"
-    },
-    {
-      "symbol": "TVSSCS",
-      "name": "TVS Supply Chain Solutions",
-      "segment": "3PL / Supply Chain",
-      "price": 137.92,
-      "prevClose": 134.46,
-      "changePct": 2.57,
-      "status": "ok"
-    },
-    {
-      "symbol": "SICAL",
-      "name": "Sical Logistics",
-      "segment": "Ports / Multimodal",
-      "price": null,
-      "prevClose": null,
-      "changePct": null,
-      "status": "error"
-    },
-    {
-      "symbol": "GATI",
-      "name": "Gati Ltd",
-      "segment": "Express / Distribution",
-      "price": null,
-      "prevClose": null,
-      "changePct": null,
-      "status": "error"
-    },
     {
       "symbol": "ADANIPORTS",
       "name": "Adani Ports & SEZ (APSEZ)",
       "segment": "Ports / SEZ",
-      "price": 1848.2,
-      "prevClose": 1810.2,
-      "changePct": 2.1,
+      "price": 1860.5,
+      "prevClose": 1848.2,
+      "changePct": 0.67,
+      "marketCapCr": 428651.6,
       "status": "ok"
     },
     {
       "symbol": "JSWINFRA",
       "name": "JSW Infrastructure",
       "segment": "Ports / Terminals",
-      "price": 330.45,
-      "prevClose": 324.0,
-      "changePct": 1.99,
+      "price": 329.65,
+      "prevClose": 330.2,
+      "changePct": -0.17,
+      "marketCapCr": 76319.3,
+      "status": "ok"
+    },
+    {
+      "symbol": "AEGISLOG",
+      "name": "Aegis Logistics",
+      "segment": "LPG / Liquid Terminals",
+      "price": 1289.9,
+      "prevClose": 1248.0,
+      "changePct": 3.36,
+      "marketCapCr": 45275.5,
+      "status": "ok"
+    },
+    {
+      "symbol": "DELHIVERY",
+      "name": "Delhivery Ltd",
+      "segment": "E-commerce / 3PL",
+      "price": 508.0,
+      "prevClose": 510.0,
+      "changePct": -0.39,
+      "marketCapCr": 38041.5,
+      "status": "ok"
+    },
+    {
+      "symbol": "CONCOR",
+      "name": "Container Corp. of India",
+      "segment": "Rail / Container",
+      "price": 478.0,
+      "prevClose": 480.25,
+      "changePct": -0.47,
+      "marketCapCr": 36405.3,
+      "status": "ok"
+    },
+    {
+      "symbol": "GESHIP",
+      "name": "Great Eastern Shipping",
+      "segment": "Shipping",
+      "price": 1432.3,
+      "prevClose": 1416.9,
+      "changePct": 1.09,
+      "marketCapCr": 20448.5,
+      "status": "ok"
+    },
+    {
+      "symbol": "SCI",
+      "name": "Shipping Corp. of India",
+      "segment": "Shipping",
+      "price": 299.15,
+      "prevClose": 301.15,
+      "changePct": -0.66,
+      "marketCapCr": 13934.4,
+      "status": "ok"
+    },
+    {
+      "symbol": "BLUEDART",
+      "name": "Blue Dart Express",
+      "segment": "Air / Express",
+      "price": 4888.0,
+      "prevClose": 4893.8,
+      "changePct": -0.12,
+      "marketCapCr": 11598.2,
+      "status": "ok"
+    },
+    {
+      "symbol": "TCI",
+      "name": "Transport Corp. of India",
+      "segment": "Multimodal",
+      "price": 930.5,
+      "prevClose": 924.1,
+      "changePct": 0.69,
+      "marketCapCr": 7149.1,
+      "status": "ok"
+    },
+    {
+      "symbol": "TVSSCS",
+      "name": "TVS Supply Chain Solutions",
+      "segment": "3PL / Supply Chain",
+      "price": 138.46,
+      "prevClose": 137.75,
+      "changePct": 0.52,
+      "marketCapCr": 6108.6,
+      "status": "ok"
+    },
+    {
+      "symbol": "VRLLOG",
+      "name": "VRL Logistics",
+      "segment": "Surface Freight",
+      "price": 239.88,
+      "prevClose": 239.0,
+      "changePct": 0.37,
+      "marketCapCr": 4196.4,
+      "status": "ok"
+    },
+    {
+      "symbol": "MAHLOG",
+      "name": "Mahindra Logistics",
+      "segment": "3PL / Supply Chain",
+      "price": 372.55,
+      "prevClose": 372.0,
+      "changePct": 0.15,
+      "marketCapCr": 3696.5,
+      "status": "ok"
+    },
+    {
+      "symbol": "TCIEXP",
+      "name": "TCI Express",
+      "segment": "Surface Express",
+      "price": 517.0,
+      "prevClose": 509.05,
+      "changePct": 1.56,
+      "marketCapCr": 1986.3,
+      "status": "ok"
+    },
+    {
+      "symbol": "NAVKARCORP",
+      "name": "Navkar Corporation",
+      "segment": "ICD / Container",
+      "price": 111.9,
+      "prevClose": 111.7,
+      "changePct": 0.18,
+      "marketCapCr": 1684.3,
+      "status": "ok"
+    },
+    {
+      "symbol": "ALLCARGO",
+      "name": "Allcargo Logistics",
+      "segment": "Freight Forwarding",
+      "price": 8.42,
+      "prevClose": 8.19,
+      "changePct": 2.81,
+      "marketCapCr": 1261.1,
+      "status": "ok"
+    },
+    {
+      "symbol": "SNOWMAN",
+      "name": "Snowman Logistics",
+      "segment": "Cold Chain",
+      "price": 37.98,
+      "prevClose": 37.09,
+      "changePct": 2.4,
+      "marketCapCr": 635.1,
       "status": "ok"
     }
   ]
