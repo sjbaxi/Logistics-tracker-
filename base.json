@@ -1,0 +1,153 @@
+{
+  "baseDate": "2023-04-01",
+  "baseIndexValue": 1000.0,
+  "baseTotalMarketCap": 3357546536289.09,
+  "divisor": 3357546536.2890897,
+  "establishedAt": "2026-07-02T04:50:20.900419+00:00",
+  "companies": [
+    {
+      "symbol": "CONCOR",
+      "name": "Container Corp. of India",
+      "segment": "Rail / Container",
+      "basePrice": 580.25,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 761617935.0
+    },
+    {
+      "symbol": "DELHIVERY",
+      "name": "Delhivery Ltd",
+      "segment": "E-commerce / 3PL",
+      "basePrice": 331.65,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 748848124.0
+    },
+    {
+      "symbol": "BLUEDART",
+      "name": "Blue Dart Express",
+      "segment": "Air / Express",
+      "basePrice": 6212.95,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 23727934.0
+    },
+    {
+      "symbol": "TCIEXP",
+      "name": "TCI Express",
+      "segment": "Surface Express",
+      "basePrice": 1492.95,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 38418990.0
+    },
+    {
+      "symbol": "TCI",
+      "name": "Transport Corp. of India",
+      "segment": "Multimodal",
+      "basePrice": 626.85,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 76831142.0
+    },
+    {
+      "symbol": "MAHLOG",
+      "name": "Mahindra Logistics",
+      "segment": "3PL / Supply Chain",
+      "basePrice": 354.3,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 99222483.0
+    },
+    {
+      "symbol": "VRLLOG",
+      "name": "VRL Logistics",
+      "segment": "Surface Freight",
+      "basePrice": 316.3,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 174936990.0
+    },
+    {
+      "symbol": "ALLCARGO",
+      "name": "Allcargo Logistics",
+      "segment": "Freight Forwarding",
+      "basePrice": 88.91,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 1497778469.0
+    },
+    {
+      "symbol": "AEGISLOG",
+      "name": "Aegis Logistics",
+      "segment": "LPG / Liquid Terminals",
+      "basePrice": 378.95,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 351000000.0
+    },
+    {
+      "symbol": "GESHIP",
+      "name": "Great Eastern Shipping",
+      "segment": "Shipping",
+      "basePrice": 644.55,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 142767161.0
+    },
+    {
+      "symbol": "SCI",
+      "name": "Shipping Corp. of India",
+      "segment": "Shipping",
+      "basePrice": 93.6,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 465799010.0
+    },
+    {
+      "symbol": "SNOWMAN",
+      "name": "Snowman Logistics",
+      "segment": "Cold Chain",
+      "basePrice": 32.0,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 167212843.0
+    },
+    {
+      "symbol": "NAVKARCORP",
+      "name": "Navkar Corporation",
+      "segment": "ICD / Container",
+      "basePrice": 52.9,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 150519181.0
+    },
+    {
+      "symbol": "TVSSCS",
+      "name": "TVS Supply Chain Solutions",
+      "segment": "3PL / Supply Chain",
+      "basePrice": 201.0,
+      "baseDateUsed": "2023-08-23",
+      "baseIsProxy": true,
+      "shares": 441180027.0
+    },
+    {
+      "symbol": "ADANIPORTS",
+      "name": "Adani Ports & SEZ (APSEZ)",
+      "segment": "Ports / SEZ",
+      "basePrice": 631.9,
+      "baseDateUsed": "2023-03-31",
+      "baseIsProxy": false,
+      "shares": 2303959098.0
+    },
+    {
+      "symbol": "JSWINFRA",
+      "name": "JSW Infrastructure",
+      "segment": "Ports / Terminals",
+      "basePrice": 157.3,
+      "baseDateUsed": "2023-10-03",
+      "baseIsProxy": true,
+      "shares": 2315161753.0
+    }
+  ]
+}
