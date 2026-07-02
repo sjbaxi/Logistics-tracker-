@@ -1,0 +1,37 @@
+name: Establish index base
+
+on:
+  workflow_dispatch: {}   # manual only — this defines the index, so it should never fire automatically
+
+permissions:
+  contents: write
+
+jobs:
+  establish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Establish base
+        run: python scripts/establish_base.py
+
+      - name: Commit base.json
+        run: |
+          git config user.name "nse-logistics-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add base.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Establish/rebalance index base: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

@@ -3,164 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NSE Logistics Manifest — Daily Index</title>
+<title>NSE Logistics Index — Daily</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#FFFFFF;
-    --page-bg:#F6F7F9;
-    --panel:#FFFFFF;
-    --panel-2:#F1F3F6;
-    --line:#DDE1E7;
-    --amber:#B4650C;       /* darkened for AA contrast on white */
-    --amber-soft:#FDF2E3;
-    --green:#1B8A5A;
-    --red:#C7364A;
-    --text:#151A23;
-    --muted:#5B6472;
+    --page-bg:#F6F7F9; --panel:#FFFFFF; --panel-2:#F1F3F6; --line:#DDE1E7;
+    --amber:#B4650C; --amber-soft:#FDF2E3;
+    --green:#1B8A5A; --green-soft:#E9F7F0;
+    --red:#C7364A; --red-soft:#FBEAED;
+    --text:#151A23; --muted:#5B6472;
   }
   *{box-sizing:border-box;}
   body{
-    margin:0;
-    background:
-      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(180,101,12,0.05) 79px, rgba(180,101,12,0.05) 80px),
-      var(--page-bg);
-    color:var(--text); font-family:'Inter', sans-serif; min-height:100vh;
-    -webkit-font-smoothing:antialiased;
+    margin:0; background:var(--page-bg); color:var(--text);
+    font-family:'Inter', sans-serif; min-height:100vh; -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:1080px;margin:0 auto;padding:24px 16px 48px;}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 14px 44px;}
 
-  header{
-    border:1px solid var(--line); background:var(--panel); border-radius:6px;
-    padding:20px 22px; position:relative; overflow:hidden;
-    box-shadow:0 1px 2px rgba(21,26,35,0.04);
-  }
-  header::before{
-    content:""; position:absolute; left:0; top:0; bottom:0; width:6px;
-    background:repeating-linear-gradient(45deg, var(--amber), var(--amber) 8px, var(--amber-soft) 8px, var(--amber-soft) 16px);
-  }
-  .eyebrow{font-family:'Space Mono', monospace; font-size:11px; letter-spacing:.16em; color:var(--amber); text-transform:uppercase;}
-  h1{
-    font-family:'Oswald', sans-serif; font-weight:700;
-    font-size:clamp(24px,6vw,40px); letter-spacing:.01em;
-    margin:6px 0 4px; text-transform:uppercase; color:var(--text);
-  }
-  .subhead{color:var(--muted); font-size:13.5px; max-width:640px; line-height:1.55;}
+  .eyebrow{font-family:'Space Mono', monospace; font-size:10.5px; letter-spacing:.16em; color:var(--amber); text-transform:uppercase;}
+  h1{font-family:'Oswald', sans-serif; font-weight:700; font-size:clamp(20px,5vw,32px); margin:4px 0 14px; text-transform:uppercase; color:var(--text);}
 
-  .meta-row{
-    display:flex; flex-wrap:wrap; gap:8px 24px;
-    margin-top:16px; padding-top:14px; border-top:1px dashed var(--line);
-    font-family:'Space Mono', monospace; font-size:11.5px; color:var(--muted);
+  /* Index headline banner */
+  .index-banner{
+    border:1px solid var(--line); background:var(--panel); border-radius:8px;
+    padding:18px 20px; display:flex; align-items:flex-end; flex-wrap:wrap; gap:14px 28px;
+    box-shadow:0 1px 2px rgba(21,26,35,0.05); margin-bottom:16px;
   }
-  .meta-row b{color:var(--text); font-weight:600;}
-  .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:6px;}
-  .status-dot.live{background:var(--green); box-shadow:0 0 5px var(--green);}
-  .status-dot.stale{background:var(--amber); box-shadow:0 0 5px var(--amber);}
+  .index-value-block{display:flex; flex-direction:column; gap:2px;}
+  .index-label{font-family:'Space Mono',monospace; font-size:10.5px; letter-spacing:.1em; color:var(--muted); text-transform:uppercase;}
+  .index-value{font-family:'Oswald',sans-serif; font-size:clamp(30px,7vw,44px); font-weight:700; line-height:1;}
+  .index-change{
+    font-family:'Space Mono',monospace; font-size:14px; font-weight:700;
+    padding:4px 10px; border-radius:5px; white-space:nowrap;
+  }
+  .index-change.up{color:var(--green); background:var(--green-soft);}
+  .index-change.down{color:var(--red); background:var(--red-soft);}
+  .index-change.flat{color:var(--muted); background:var(--panel-2);}
+  .index-meta{font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); line-height:1.6; margin-left:auto;}
+  .index-meta b{color:var(--text);}
 
-  .toolbar{display:flex; justify-content:space-between; align-items:center; margin:20px 0 10px; flex-wrap:wrap; gap:8px;}
-  .toolbar .count{font-family:'Space Mono',monospace; font-size:11.5px; color:var(--muted);}
+  .toolbar{display:flex; justify-content:space-between; align-items:center; margin:4px 2px 8px; flex-wrap:wrap; gap:6px;}
+  .toolbar .count{font-family:'Space Mono',monospace; font-size:11px; color:var(--muted);}
+  .status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin-right:5px;}
+  .status-dot.live{background:var(--green);} .status-dot.stale{background:var(--amber);}
 
-  .board{border:1px solid var(--line); background:var(--panel); border-radius:6px; overflow:hidden; box-shadow:0 1px 2px rgba(21,26,35,0.04);}
+  /* Compact table */
+  .board{border:1px solid var(--line); background:var(--panel); border-radius:8px; overflow:hidden; box-shadow:0 1px 2px rgba(21,26,35,0.05);}
   .board-header, .row{
     display:grid;
-    grid-template-columns: 30px 1.6fr 90px 90px 90px 100px;
-    align-items:center; column-gap:8px; padding:0 16px;
+    grid-template-columns: 26px 1.7fr 78px 88px 66px 100px;
+    align-items:center; column-gap:6px; padding:0 12px;
   }
   .board-header{
-    background:var(--panel-2); font-family:'Space Mono', monospace; font-size:10.5px;
-    letter-spacing:.08em; text-transform:uppercase; color:var(--muted); height:36px;
+    background:var(--panel-2); font-family:'Space Mono', monospace; font-size:10px;
+    letter-spacing:.06em; text-transform:uppercase; color:var(--muted); height:30px;
   }
-  .row{height:54px; border-top:1px solid var(--line); font-family:'Space Mono', monospace;}
+  .row{height:38px; border-top:1px solid var(--line); font-family:'Space Mono', monospace; font-size:12.5px;}
+  .row:nth-child(even){background:#FBFBFC;}
   .row:hover{background:var(--panel-2);}
-  .idx{color:var(--amber); font-size:11.5px; opacity:.75;}
-  .name-cell{display:flex;flex-direction:column;gap:2px;overflow:hidden;}
-  .name-cell .nm{
-    font-family:'Oswald',sans-serif; font-size:14.5px; text-transform:uppercase; letter-spacing:.02em;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text);
-  }
-  .name-cell .sym{font-size:10px; color:var(--muted); letter-spacing:.06em;}
-  .segment{font-size:11px; color:var(--muted);}
-  .price{font-size:14.5px; text-align:right; color:var(--text); font-weight:700;}
-  .chg{font-size:12.5px; text-align:right; font-weight:700;}
+  .idx{color:var(--amber); font-size:10.5px; opacity:.8;}
+  .name-cell{overflow:hidden; white-space:nowrap;}
+  .name-cell .nm{font-family:'Oswald',sans-serif; font-size:12.5px; text-transform:uppercase; letter-spacing:.01em; color:var(--text);}
+  .name-cell .sym{font-size:9px; color:var(--muted); margin-left:5px; letter-spacing:.04em;}
+  .segment{font-size:10px; color:var(--muted); overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+  .price{text-align:right; color:var(--text); font-weight:700;}
+  .chg{text-align:right; font-weight:700;}
   .chg.up{color:var(--green);} .chg.down{color:var(--red);} .chg.flat{color:var(--muted);}
-  .mcap{font-size:11.5px; text-align:right; color:var(--muted);}
+  .mcap{text-align:right; color:var(--muted);}
 
-  footer{
-    margin-top:20px; font-size:11px; color:var(--muted); line-height:1.6;
-    border-top:1px solid var(--line); padding-top:14px;
-  }
+  footer{margin-top:16px; font-size:10.5px; color:var(--muted); line-height:1.6; border-top:1px solid var(--line); padding-top:12px;}
   footer a{color:var(--amber); text-decoration:none; font-weight:600;}
-  .errbox{margin-top:12px; font-family:'Space Mono',monospace; font-size:12px; color:var(--red);}
+  .errbox{margin-top:10px; font-family:'Space Mono',monospace; font-size:11.5px; color:var(--red);}
 
-  /* Tablet */
   @media (max-width:760px){
-    .wrap{padding:18px 12px 40px;}
-    header{padding:16px 16px 16px 20px;}
-    .board-header, .row{
-      grid-template-columns: 22px 1.4fr 76px 84px;
-      padding:0 12px;
-    }
+    .board-header, .row{grid-template-columns: 20px 1.5fr 70px 78px; padding:0 10px;}
     .segment, .mcap{display:none;}
-    .row{height:58px;}
+    .index-meta{margin-left:0;}
   }
-
-  /* Phone */
-  @media (max-width:460px){
-    h1{font-size:22px;}
-    .subhead{font-size:12.5px;}
-    .meta-row{gap:6px 16px; font-size:10.5px;}
-    .board-header, .row{
-      grid-template-columns: 20px 1fr 72px;
-      padding:0 10px;
-    }
+  @media (max-width:440px){
+    .board-header, .row{grid-template-columns: 18px 1fr 66px; padding:0 8px;}
     .chg{display:none;}
-    .name-cell .nm{font-size:13px;}
-    .price{font-size:13.5px;}
-    .toolbar{margin:16px 0 8px;}
+    .name-cell .sym{display:none;}
+    .index-banner{padding:14px 16px;}
   }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header>
-    <div class="eyebrow">Consignment Note · Sector Index</div>
-    <h1>NSE Logistics Manifest</h1>
-    <p class="subhead">A running index of logistics, freight, ports, and supply-chain companies listed on the National Stock Exchange of India, refreshed automatically on a schedule.</p>
-    <div class="meta-row">
-      <span><span class="status-dot" id="statusDot"></span><b id="statusText">Loading manifest…</b></span>
-      <span>Last updated: <b id="lastUpdated">—</b></span>
-      <span>Companies tracked: <b id="companyCount">—</b></span>
+  <div class="eyebrow">Consignment Note · Sector Index</div>
+  <h1>NSE Logistics Index</h1>
+
+  <div class="index-banner">
+    <div class="index-value-block">
+      <span class="index-label">Index Value</span>
+      <span class="index-value" id="indexValue">—</span>
     </div>
-  </header>
+    <span class="index-change flat" id="indexChange">—</span>
+    <div class="index-meta">
+      Base <b id="baseDate">—</b> = <b id="baseValue">1000.00</b><br>
+      Updated <b id="lastUpdated">—</b>
+    </div>
+  </div>
 
   <div class="toolbar">
-    <span class="count">Sorted by NSE symbol</span>
-    <span class="count" id="nextNote"></span>
+    <span class="count"><span class="status-dot" id="statusDot"></span><span id="statusText">Loading…</span></span>
+    <span class="count">Sorted by market cap, high to low</span>
   </div>
 
   <div class="board">
     <div class="board-header">
       <div>#</div><div>Company</div><div class="segment">Segment</div>
-      <div class="price" style="text-align:right;">LTP (₹)</div>
-      <div class="chg" style="text-align:right;">Chg %</div>
-      <div class="mcap" style="text-align:right;">Prev Close</div>
+      <div class="price" style="text-align:right;">LTP</div>
+      <div class="chg" style="text-align:right;">Chg%</div>
+      <div class="mcap" style="text-align:right;">Mkt Cap (₹Cr)</div>
     </div>
     <div id="rows"></div>
   </div>
   <div class="errbox" id="errbox" style="display:none;"></div>
 
   <footer>
-    Data is fetched and committed automatically by a scheduled GitHub Actions workflow — every 15 minutes during NSE trading hours (9:15 AM–3:30 PM IST, Mon–Fri) — whether or not anyone is viewing this page. This page itself just reads the latest <code>data.json</code> the workflow produced. Curated list for reference only, not a licensed exchange index and not investment advice — verify against <a href="https://www.nseindia.com" target="_blank" rel="noopener">nseindia.com</a>.
+    Index is a market-cap-weighted composite (base = 1 Apr 2023, base value 1000), computed the same way most equity indices work: index = (Σ price × locked share count) ÷ divisor. Share counts are frozen at construction, not refetched every run, so day-to-day moves reflect price only — see the repo's <code>establish_base.py</code> to rebalance. Prices refresh every 15 min during NSE hours via scheduled GitHub Actions, whether or not anyone is viewing this page. Reference only, not a licensed exchange index or investment advice — verify at <a href="https://www.nseindia.com" target="_blank" rel="noopener">nseindia.com</a>.
   </footer>
 
 </div>
 
 <script>
-function fmt(n){
+function fmt(n, d=2){
   if(n == null || isNaN(n)) return '—';
-  return Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+  return Number(n).toLocaleString('en-IN', {minimumFractionDigits:d, maximumFractionDigits:d});
 }
 
 async function load(){
@@ -168,33 +140,39 @@ async function load(){
     const res = await fetch('./data.json', {cache:'no-store'});
     if(!res.ok) throw new Error('data.json not found (has the workflow run yet?)');
     const data = await res.json();
+    const idx = data.index || {};
 
-    document.getElementById('companyCount').textContent = data.companyCount ?? data.companies.length;
-    const generated = new Date(data.generatedAt);
-    document.getElementById('lastUpdated').textContent = generated.toLocaleString('en-IN', {dateStyle:'medium', timeStyle:'short'});
+    document.getElementById('indexValue').textContent = idx.value != null ? fmt(idx.value) : '—';
+    document.getElementById('baseDate').textContent = idx.baseDate || '—';
+    document.getElementById('baseValue').textContent = idx.baseValue != null ? fmt(idx.baseValue) : '1000.00';
+    document.getElementById('lastUpdated').textContent = new Date(data.generatedAt).toLocaleString('en-IN', {dateStyle:'medium', timeStyle:'short'});
+
+    const chgEl = document.getElementById('indexChange');
+    if(idx.changePct == null){
+      chgEl.textContent = '—'; chgEl.className = 'index-change flat';
+    } else {
+      const arrow = idx.changePct > 0 ? '▲' : idx.changePct < 0 ? '▼' : '▬';
+      chgEl.textContent = `${arrow} ${idx.changePct >= 0 ? '+' : ''}${idx.changePct.toFixed(2)}%`;
+      chgEl.className = 'index-change ' + (idx.changePct > 0 ? 'up' : idx.changePct < 0 ? 'down' : 'flat');
+    }
 
     const dot = document.getElementById('statusDot');
     const statusText = document.getElementById('statusText');
     const failed = data.failedCount ?? 0;
-    if(failed === 0){
-      dot.className = 'status-dot live';
-      statusText.textContent = 'Manifest current';
-    } else {
-      dot.className = 'status-dot stale';
-      statusText.textContent = `${failed} symbol(s) failed on last run`;
-    }
+    if(failed === 0){ dot.className = 'status-dot live'; statusText.textContent = 'Index current'; }
+    else { dot.className = 'status-dot stale'; statusText.textContent = `${failed} symbol(s) failed on last run`; }
 
     document.getElementById('rows').innerHTML = data.companies.map((c,i)=>{
       const chgClass = c.changePct > 0 ? 'up' : c.changePct < 0 ? 'down' : 'flat';
       const chgText = c.changePct == null ? '—' : (c.changePct >= 0 ? '+' : '') + c.changePct.toFixed(2) + '%';
       return `
         <div class="row">
-          <div class="idx">${String(i+1).padStart(2,'0')}</div>
-          <div class="name-cell"><span class="nm">${c.name}</span><span class="sym">NSE: ${c.symbol}</span></div>
+          <div class="idx">${i+1}</div>
+          <div class="name-cell"><span class="nm">${c.name}</span><span class="sym">${c.symbol}</span></div>
           <div class="segment">${c.segment}</div>
           <div class="price" style="text-align:right;">${c.price != null ? fmt(c.price) : 'n/a'}</div>
           <div class="chg ${chgClass}" style="text-align:right;">${chgText}</div>
-          <div class="mcap" style="text-align:right;">${fmt(c.prevClose)}</div>
+          <div class="mcap" style="text-align:right;">${c.marketCapCr != null ? fmt(c.marketCapCr, 0) : 'n/a'}</div>
         </div>`;
     }).join('');
 

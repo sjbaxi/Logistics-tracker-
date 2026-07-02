@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 """
-Fetches live quotes for a curated list of NSE-listed logistics companies
-and writes them to data.json at the repo root.
+Fetches current quotes for the index constituents (defined once in
+base.json — see establish_base.py) and writes data.json: per-company price,
+change %, market cap in Rs crore, PLUS the market-cap-weighted index level
+and its change from the previous close.
 
-Uses yfinance rather than raw HTTP calls to Yahoo's chart API: Yahoo now
-frequently requires a session/crumb token, and yfinance handles that
-negotiation (and retries) for us instead of returning bare 401/429s.
+Index math (standard cap-weighted construction, matches base.json's divisor):
+    index_value = (sum of price_i * shares_i) / divisor
 
-This script is run on a schedule by .github/workflows/update-quotes.yml —
-it has no knowledge of whether anyone is looking at the site.
+Share counts come from base.json and are intentionally NOT refetched here —
+real indices only revisit float/share counts on a periodic review, not on
+every tick, so day-to-day moves reflect price only. Re-run establish_base.py
+to rebalance shares or change constituents.
+
+Runs on a schedule via .github/workflows/update-quotes.yml, whether or not
+anyone is looking at the site.
 """
 import json
 import sys
@@ -17,40 +23,18 @@ from datetime import datetime, timezone
 
 import yfinance as yf
 
-COMPANIES = [
-    {"symbol": "CONCOR",     "name": "Container Corp. of India", "segment": "Rail / Container"},
-    {"symbol": "DELHIVERY",  "name": "Delhivery Ltd",             "segment": "E-commerce / 3PL"},
-    {"symbol": "BLUEDART",   "name": "Blue Dart Express",         "segment": "Air / Express"},
-    {"symbol": "TCIEXP",     "name": "TCI Express",               "segment": "Surface Express"},
-    {"symbol": "TCI",        "name": "Transport Corp. of India",  "segment": "Multimodal"},
-    {"symbol": "MAHLOG",     "name": "Mahindra Logistics",        "segment": "3PL / Supply Chain"},
-    {"symbol": "VRLLOG",     "name": "VRL Logistics",             "segment": "Surface Freight"},
-    {"symbol": "ALLCARGO",   "name": "Allcargo Logistics",        "segment": "Freight Forwarding"},
-    {"symbol": "AEGISLOG",   "name": "Aegis Logistics",           "segment": "LPG / Liquid Terminals"},
-    {"symbol": "GESHIP",     "name": "Great Eastern Shipping",    "segment": "Shipping"},
-    {"symbol": "SCI",        "name": "Shipping Corp. of India",   "segment": "Shipping"},
-    {"symbol": "SNOWMAN",    "name": "Snowman Logistics",         "segment": "Cold Chain"},
-    {"symbol": "NAVKARCORP", "name": "Navkar Corporation",        "segment": "ICD / Container"},
-    {"symbol": "TVSSCS",     "name": "TVS Supply Chain Solutions","segment": "3PL / Supply Chain"},
-    {"symbol": "SICAL",      "name": "Sical Logistics",           "segment": "Ports / Multimodal"},
-    {"symbol": "GATI",       "name": "Gati Ltd",                  "segment": "Express / Distribution"},
-    {"symbol": "ADANIPORTS","name": "Adani Ports & SEZ (APSEZ)",  "segment": "Ports / SEZ"},
-    {"symbol": "JSWINFRA",  "name": "JSW Infrastructure",         "segment": "Ports / Terminals"},
-]
-
 MAX_ATTEMPTS = 3
 RETRY_DELAY_SECONDS = 4
+CRORE = 10_000_000  # 1 crore = 1,00,00,000
 
 
 def _extract(fast_info, keys):
-    """fast_info exposes both snake_case and camelCase keys depending on
-    yfinance version; try a few until one works."""
     for key in keys:
         try:
             value = fast_info[key]
             if value is not None:
                 return value
-        except (KeyError, Exception):
+        except Exception:
             continue
     return None
 
@@ -65,8 +49,6 @@ def fetch_quote(symbol: str):
             prev_close = _extract(fast, ["previous_close", "previousClose"])
 
             if price is None:
-                # fast_info can come back empty for illiquid/small-cap symbols;
-                # fall back to a 1-day price history.
                 hist = ticker.history(period="2d")
                 if not hist.empty:
                     price = float(hist["Close"].iloc[-1])
@@ -87,38 +69,87 @@ def fetch_quote(symbol: str):
     raise last_error
 
 
+def load_base():
+    try:
+        with open("base.json") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(
+            "FATAL: base.json not found. Run scripts/establish_base.py once "
+            "(Actions tab -> 'Establish index base' -> Run workflow) before "
+            "the scheduled quote fetch can compute the index.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+
 def main():
+    base = load_base()
+    divisor = base["divisor"]
+
     rows = []
     failures = 0
-    for company in COMPANIES:
-        row = dict(company)
+    current_total_mcap = 0.0
+    prev_total_mcap = 0.0
+
+    for bc in base["companies"]:
+        symbol = bc["symbol"]
+        shares = bc["shares"]
+        row = {"symbol": symbol, "name": bc["name"], "segment": bc["segment"]}
         try:
-            row.update(fetch_quote(company["symbol"]))
-            row["changePct"] = (
-                round((row["price"] - row["prevClose"]) / row["prevClose"] * 100, 2)
-                if row.get("prevClose")
-                else None
-            )
-            row["status"] = "ok"
-        except Exception as exc:  # noqa: BLE001 - one bad symbol shouldn't kill the run
-            row.update({"price": None, "prevClose": None, "changePct": None})
-            row["status"] = "error"
+            q = fetch_quote(symbol)
+            price, prev_close = q["price"], q["prevClose"]
+            market_cap_cr = (price * shares) / CRORE
+            row.update({
+                "price": price,
+                "prevClose": prev_close,
+                "changePct": round((price - prev_close) / prev_close * 100, 2) if prev_close else None,
+                "marketCapCr": round(market_cap_cr, 1),
+                "status": "ok",
+            })
+            current_total_mcap += price * shares
+            prev_total_mcap += (prev_close if prev_close else price) * shares
+        except Exception as exc:  # noqa: BLE001
             failures += 1
-            print(f"WARN: failed to fetch {company['symbol']} after retries: {exc}", file=sys.stderr)
+            row.update({"price": None, "prevClose": None, "changePct": None, "marketCapCr": None, "status": "error"})
+            print(f"WARN: failed to fetch {symbol} after retries: {exc}", file=sys.stderr)
+            # Keep the index stable rather than skewed by a missing constituent:
+            # hold its last-known (base) price flat for this run's total.
+            current_total_mcap += bc["basePrice"] * shares
+            prev_total_mcap += bc["basePrice"] * shares
         rows.append(row)
-        time.sleep(1)  # be polite to the upstream feed, avoid rate-limit blocks
+        time.sleep(1)
+
+    ok_rows = [r for r in rows if r["marketCapCr"] is not None]
+    failed_rows = [r for r in rows if r["marketCapCr"] is None]
+    rows_sorted = sorted(ok_rows, key=lambda r: r["marketCapCr"], reverse=True) + failed_rows
+
+    index_value = current_total_mcap / divisor
+    prev_index_value = prev_total_mcap / divisor
+    index_change_pct = (
+        round((index_value - prev_index_value) / prev_index_value * 100, 2)
+        if prev_index_value else None
+    )
 
     output = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "companyCount": len(COMPANIES),
+        "index": {
+            "baseDate": base["baseDate"],
+            "baseValue": base["baseIndexValue"],
+            "value": round(index_value, 2),
+            "prevValue": round(prev_index_value, 2),
+            "changePct": index_change_pct,
+        },
+        "companyCount": len(rows_sorted),
         "failedCount": failures,
-        "companies": rows,
+        "companies": rows_sorted,
     }
 
     with open("data.json", "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"Wrote data.json — {len(COMPANIES) - failures}/{len(COMPANIES)} quotes fetched successfully.")
+    print(f"Wrote data.json — index {index_value:.2f} ({index_change_pct}%), "
+          f"{len(rows_sorted) - failures}/{len(rows_sorted)} quotes ok")
 
 
 if __name__ == "__main__":
